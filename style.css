@@ -1,0 +1,548 @@
+/* --- 기본 스타일 및 paste.txt [1] 기반 스타일 --- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  /* margin: 0; padding: 0; 은 html, body 에서 이미 처리되었거나,
+     개별 요소에서 필요에 따라 설정하는 것이 좋습니다.
+     여기서는 paste.txt의 원래 구조를 최대한 따릅니다. */
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 24px;
+}
+/* --- 핀 컨테이너 및 패널 스타일 (첫 번째 HTML 기반) --- */
+#pinContainer {
+  width: 100%;
+  height: 100vh; /* 뷰포트 높이만큼 차지 */
+  overflow: hidden;
+  position: relative; /* ScrollMagic의 setPin 대상 */
+  /* 메인 콘텐츠의 일부로, 다른 섹션들과의 간격은 section 마진 등으로 조절 */
+  margin-top: 100px; /* 헤더 높이만큼 확보, 필요시 조정 */
+}
+
+.panel {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.panel1 {
+  background-image: url("images/iu_flower2.jpg");
+  z-index: 1;
+}
+.panel2 {
+  background-image: url("images/iu_flower3.jpg");
+  z-index: 2;
+}
+.panel3 {
+  background-image: url("images/woodz_red.jpg");
+  z-index: 3;
+}
+.panel4 {
+  background-image: url("images/iubanner1.png");
+  z-index: 4;
+}
+
+/* #pinContainer 내부 스크롤 마우스 (흰색 버전) */
+#scrollMousePinContainer {
+  position: absolute;
+  left: 50%;
+  top: 85%; /* 위치 조정 */
+  transform: translateX(-50%);
+  z-index: 10; /* 패널보다 위 */
+  pointer-events: none;
+}
+#scrollMousePinContainer svg rect {
+  stroke: #fff;
+  stroke-width: 2;
+}
+#scrollMousePinContainer svg .wheel {
+  /* HTML에서 class="wheel"로 변경 */
+  fill: #fff;
+}
+#scrollMousePinContainer svg .double-arrow polyline {
+  stroke: #fff;
+  stroke-opacity: 0.8;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+#scrollMousePinContainer .double-arrow {
+  animation: arrowDownMoveWhite 1.3s infinite cubic-bezier(0.4, 1, 0.5, 1.3);
+}
+
+/* 인트로 오버레이 */
+#introOverlay {
+  position: fixed;
+  z-index: 9999; /* 패널 이미지들보다 위에, 슬로건 나올 때 다른 모든 요소보다 위에 */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.intro-center {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.intro-title {
+  font-family: "Pretendard", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.8rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #111;
+  margin-bottom: 0px;
+  line-height: 1.22;
+  pointer-events: none;
+}
+
+.slogan-text {
+  /* #introOverlay 내부 슬로건 */
+  opacity: 0;
+  filter: blur(7px);
+  transition: opacity 1.2s cubic-bezier(0.4, 0.1, 0, 1),
+    filter 1.2s cubic-bezier(0.4, 0.1, 0, 1);
+}
+
+/* #introOverlay 내부 스크롤 마우스 (검은색 버전) */
+#introOverlay .scroll-mouse {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  z-index: 100; /* introOverlay 내부이므로 상대적 z-index */
+}
+
+#introOverlay .scroll-mouse svg rect {
+  stroke: #222;
+  stroke-width: 2;
+}
+#introOverlay .scroll-mouse svg #wheel {
+  /* ID wheel 사용 */
+  fill: #222;
+}
+#introOverlay .scroll-mouse svg .double-arrow polyline {
+  /* 클래스 double-arrow 사용 */
+  stroke: #222;
+  stroke-opacity: 0.8;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.double-arrow {
+  /* #introOverlay .scroll-mouse 내부 화살표 애니메이션 */
+  animation: arrowDownMove 1.3s infinite cubic-bezier(0.4, 1, 0.5, 1.3);
+}
+
+@keyframes arrowDownMove {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(8px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 본문 숨기기(인트로때) - #pinContainer 추가 */
+body:not(.show-main) .header,
+body:not(.show-main) .sidebar,
+body:not(.show-main) section:not(#pinContainer), /* #pinContainer는 이 규칙에서 제외 */
+body:not(.show-main) .fixed-box {
+  display: none !important;
+}
+
+/* --- 헤더 스타일 (paste.txt [1] 기반) --- */
+.header {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  position: fixed; /* 헤더 고정 추가 */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* 다른 요소들 위에 오도록 */
+}
+
+.header-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 20px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: auto;
+  max-height: 80px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .logo img {
+    max-height: 56px;
+  }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-left: auto;
+}
+
+.artist-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.artist-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.artist-text {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.multi-color-text span {
+  display: inline-block;
+  color: black;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.dropdown-arrow {
+  font-size: 24px;
+  display: inline-block;
+  color: black;
+  transition: all 0.4s ease;
+  font-variation-settings: "FILL" 1;
+}
+
+.artist-select .dropdown-arrow {
+  transition: transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.artist-select.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.artist-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 8px 0;
+  z-index: 100;
+  display: none;
+  min-width: 120px;
+}
+
+.artist-dropdown li {
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: black;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.artist-dropdown li:hover {
+  background-color: #f0f0f0;
+  color: #2da5c0;
+  font-weight: 600;
+}
+
+.icon-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+  transform: scale(0.95);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon .text {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.icon span.material-symbols-outlined {
+  font-size: 24px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.icon:hover .material-symbols-outlined {
+  color: #2da5c0;
+}
+
+.icon:hover .text {
+  color: #2da5c0;
+}
+
+.language-selector {
+  position: relative;
+}
+
+.language-selector .text {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.language-selector .arrow {
+  font-size: 10px;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.language-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 150px;
+  text-align: left;
+}
+
+.language-dropdown li {
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.language-dropdown li.selected {
+  color: #2da5c0;
+  font-weight: bold;
+}
+
+.language-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.icon:hover .arrow {
+  color: #2da5c0;
+}
+
+/* --- 사이드바 스타일 (paste.txt [1] 기반) --- */
+.sidebar {
+  position: absolute; /* 스크롤 따라가도록 fixed로 변경 */
+  top: 150px; /* 헤더 높이 고려한 초기 위치, JS에서 조절됨 */
+  left: 60px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 900; /* 헤더보다는 아래, 본문 콘텐츠보다는 위 */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar ul li {
+  font-size: 24px;
+  color: #b3b3b3;
+  margin-bottom: 14px;
+  transition: all 0.3s;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+}
+.sidebar ul li span {
+  /* 첫 글자 */
+  font-weight: 800;
+  margin-right: 1px;
+  position: relative;
+  display: inline-block;
+}
+.sidebar ul li .m {
+  color: #315e9e !important;
+}
+.sidebar ul li .a {
+  color: #2da5c0 !important;
+}
+.sidebar ul li .d {
+  color: #aac154 !important;
+}
+.sidebar ul li .e {
+  color: #d26d99 !important;
+}
+
+.sidebar ul li span::after, /* 첫 글자 밑줄 */
+.sidebar ul li .text::after {
+  /* 나머지 텍스트 밑줄 */
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background-color: transparent;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.sidebar ul li.m:hover .m::after,
+.sidebar ul li.m:hover .text::after {
+  background-color: #315e9e;
+  transform: scaleX(1);
+}
+.sidebar ul li.a:hover .a::after,
+.sidebar ul li.a:hover .text::after {
+  background-color: #2da5c0;
+  transform: scaleX(1);
+}
+.sidebar ul li.d:hover .d::after,
+.sidebar ul li.d:hover .text::after {
+  background-color: #aac154;
+  transform: scaleX(1);
+}
+.sidebar ul li.e:hover .e::after,
+.sidebar ul li.e:hover .text::after {
+  background-color: #d26d99;
+  transform: scaleX(1);
+}
+
+.sidebar ul li:hover {
+  color: #3a3a3a;
+  cursor: pointer;
+}
+
+@media (min-width: 1920px) {
+  .sidebar {
+    left: 80px;
+  }
+}
+@media (min-width: 2560px) {
+  .sidebar {
+    left: 100px;
+  }
+}
+
+/* --- 나머지 섹션 스타일 (paste.txt [1] 기반) --- */
+section {
+  /* #pinContainer 이후의 section들 */
+  height: 100vh;
+  /* margin-top 제거 또는 조정 (헤더가 fixed이므로 첫번째 section은 헤더 높이만큼의 padding-top 필요) */
+  /* 여기서는 #pinContainer 다음에 오므로, 특별한 margin-top은 불필요할 수 있음 */
+  padding-top: 100px; /* 헤더 높이만큼 확보 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+}
+#pinContainer + .section1 {
+  /* #pinContainer 바로 다음 섹션은 추가적인 margin-top 불필요 */
+  padding-top: 0; /* 이미 #pinContainer가 공간 차지 */
+  margin-top: 0;
+}
+
+.section1 {
+  background: #4a90e2;
+}
+.section2 {
+  background: #50e3c2;
+}
+.section3 {
+  background: #b8e986;
+}
+.section4 {
+  background: #f5a623;
+}
+.section5 {
+  background: #d0021b;
+}
+
+/* 고정 테스트 요소 */
+.fixed-box {
+  position: fixed;
+  top: 150px; /* 헤더와 사이드바 고려한 위치 */
+  right: 20px; /* 오른쪽으로 변경 */
+  padding: 12px 20px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  font-size: 18px;
+  z-index: 999;
+}
