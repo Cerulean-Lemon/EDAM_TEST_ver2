@@ -1,16 +1,13 @@
 /* --- 기본 스타일 및 paste.txt [1] 기반 스타일 --- */
-html,
+html {
+  font-size: 16px; /* 1rem = 16px */
+  height: 100%;
+}
+
 body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-* {
-  box-sizing: border-box;
-  /* margin: 0; padding: 0; 은 html, body 에서 이미 처리되었거나,
-     개별 요소에서 필요에 따라 설정하는 것이 좋습니다.
-     여기서는 paste.txt의 원래 구조를 최대한 따릅니다. */
 }
 
 body {
@@ -25,11 +22,10 @@ body {
 /* --- 핀 컨테이너 및 패널 스타일 (첫 번째 HTML 기반) --- */
 #pinContainer {
   width: 100%;
-  height: 100vh; /* 뷰포트 높이만큼 차지 */
+  height: 100vh;
   overflow: hidden;
-  position: relative; /* ScrollMagic의 setPin 대상 */
-  /* 메인 콘텐츠의 일부로, 다른 섹션들과의 간격은 section 마진 등으로 조절 */
-  margin-top: 100px; /* 헤더 높이만큼 확보, 필요시 조정 */
+  position: relative;
+  margin-top: 6.25rem; /* 100px → rem */
 }
 
 .panel {
@@ -63,11 +59,12 @@ body {
 #scrollMousePinContainer {
   position: absolute;
   left: 50%;
-  top: 85%; /* 위치 조정 */
+  top: 85vh; /* vh로, 뷰포트 기준 */
   transform: translateX(-50%);
-  z-index: 10; /* 패널보다 위 */
+  z-index: 10;
   pointer-events: none;
 }
+
 #scrollMousePinContainer svg rect {
   stroke: #fff;
   stroke-width: 2;
@@ -92,7 +89,7 @@ body {
 /* 인트로 오버레이 */
 #introOverlay {
   position: fixed;
-  z-index: 9999; /* 패널 이미지들보다 위에, 슬로건 나올 때 다른 모든 요소보다 위에 */
+  z-index: 9999;
   top: 0;
   left: 0;
   width: 100vw;
@@ -187,7 +184,6 @@ body {
 
 /* 본문 숨기기(인트로때) - #pinContainer 추가 */
 body:not(.show-main) .header,
-body:not(.show-main) .sidebar,
 body:not(.show-main) section:not(#pinContainer), /* #pinContainer는 이 규칙에서 제외 */
 body:not(.show-main) .fixed-box {
   display: none !important;
@@ -198,17 +194,16 @@ body:not(.show-main) .fixed-box {
   width: 100%;
   border-bottom: 1px solid #ddd;
   background-color: white;
-  position: fixed; /* 헤더 고정 추가 */
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* 다른 요소들 위에 오도록 */
+  z-index: 1000;
 }
 
 .header-inner {
   width: 100%;
-  max-width: none;
   margin: 0 auto;
-  padding: 20px 80px;
+  padding: 1.25rem 5vw; /* 20px 80px → rem, vw */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -216,15 +211,9 @@ body:not(.show-main) .fixed-box {
 
 .logo img {
   height: auto;
-  max-height: 80px;
+  max-height: 5rem; /* 80px → rem */
   width: auto;
   object-fit: contain;
-}
-
-@media (max-width: 768px) {
-  .logo img {
-    max-height: 56px;
-  }
 }
 
 .nav-right {
@@ -242,9 +231,9 @@ body:not(.show-main) .fixed-box {
 }
 
 .artist-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
   object-fit: cover;
 }
 
@@ -258,12 +247,12 @@ body:not(.show-main) .fixed-box {
   display: inline-block;
   color: black;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 0.9375rem;
   transition: color 0.2s ease;
 }
 
 .dropdown-arrow {
-  font-size: 24px;
+  font-size: 1.5rem;
   display: inline-block;
   color: black;
   transition: all 0.4s ease;
@@ -279,22 +268,22 @@ body:not(.show-main) .fixed-box {
 
 .artist-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 0.5rem);
   right: 0;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.025rem 0.5rem rgba(0, 0, 0, 0.1);
   list-style: none;
-  padding: 8px 0;
+  padding: 0.5rem 0;
   z-index: 100;
   display: none;
-  min-width: 120px;
+  min-width: 7.5rem;
 }
 
 .artist-dropdown li {
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
   cursor: pointer;
   color: black;
   transition: color 0.2s ease, background 0.2s ease;
@@ -309,26 +298,26 @@ body:not(.show-main) .fixed-box {
 .icon-group {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 .icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   cursor: pointer;
   transform: scale(0.95);
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .icon .text {
-  margin-top: 4px;
-  font-size: 12px;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
 }
 
 .icon span.material-symbols-outlined {
-  font-size: 24px;
+  font-size: 1.5rem;
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
@@ -358,7 +347,7 @@ body:not(.show-main) .fixed-box {
 }
 
 .language-selector .arrow {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: inherit;
   transition: transform 0.3s ease;
 }
@@ -370,18 +359,18 @@ body:not(.show-main) .fixed-box {
   top: 100%;
   background: white;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   list-style: none;
-  padding: 8px 0;
+  padding: 0.5rem 0;
   z-index: 100;
-  min-width: 150px;
+  min-width: 9.375rem;
   text-align: left;
 }
 
 .language-dropdown li {
-  padding: 8px 16px;
-  font-size: 12px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 
@@ -398,104 +387,128 @@ body:not(.show-main) .fixed-box {
   color: #2da5c0;
 }
 
-/* --- 사이드바 스타일 (paste.txt [1] 기반) --- */
-.sidebar {
-  position: absolute; /* 스크롤 따라가도록 fixed로 변경 */
-  top: 150px; /* 헤더 높이 고려한 초기 위치, JS에서 조절됨 */
-  left: 60px;
-  width: 200px;
+/* EDAM 컬러 클래스 */
+.edam-e {
+  color: #d26d99;
+  font-weight: bold;
+}
+.edam-d {
+  color: #aac154;
+  font-weight: bold;
+}
+.edam-a {
+  color: #2da5c0;
+  font-weight: bold;
+}
+.edam-m {
+  color: #315e9e;
+  font-weight: bold;
+}
+
+/* 헤더 중앙 정렬 & 메뉴 디자인 */
+.header-inner {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  z-index: 900; /* 헤더보다는 아래, 본문 콘텐츠보다는 위 */
+  justify-content: center; /* 전체 중앙 정렬 */
+  align-items: center;
+  position: relative;
+  padding: 20px 0;
 }
 
-.sidebar ul {
+.logo {
+  flex: 0 0 auto;
+  margin-right: 3.75rem; /* 메뉴와 로고 간격 */
+  margin-left: 2.5rem;
+}
+
+.main-nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: clamp(1.5rem, 7vw, 8.125rem);
   list-style: none;
-  padding: 0;
   margin: 0;
-  width: 100%;
+  padding: 0;
 }
 
-.sidebar ul li {
-  font-size: 24px;
-  color: #b3b3b3;
-  margin-bottom: 14px;
-  transition: all 0.3s;
+.main-nav ul li a {
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: #222;
   text-decoration: none;
-  font-weight: 500;
-  position: relative;
-}
-.sidebar ul li span {
-  /* 첫 글자 */
-  font-weight: 800;
-  margin-right: 1px;
-  position: relative;
-  display: inline-block;
-}
-.sidebar ul li .m {
-  color: #315e9e !important;
-}
-.sidebar ul li .a {
-  color: #2da5c0 !important;
-}
-.sidebar ul li .d {
-  color: #aac154 !important;
-}
-.sidebar ul li .e {
-  color: #d26d99 !important;
+  letter-spacing: 0.02em;
+  transition: color 0.2s, transform 0.2s cubic-bezier(0.42, 0, 0.58, 1),
+    /* 밑줄 애니메이션은 ::after에서 처리 */;
+  display: flex;
+  align-items: center;
+  position: relative; /* ::after 위한 기준 */
 }
 
-.sidebar ul li span::after, /* 첫 글자 밑줄 */
-.sidebar ul li .text::after {
-  /* 나머지 텍스트 밑줄 */
+.main-nav ul li a::after {
   content: "";
+  display: block;
   position: absolute;
   left: 0;
-  bottom: -4px;
+  right: 0;
+  bottom: -3px;
+  height: 2.5px;
+  background: transparent; /* 기본 투명 */
+  width: 0%;
+  transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1), background 0.2s;
+  border-radius: 2px;
+}
+
+/* 메뉴별 밑줄 컬러 지정 */
+
+.nav-events a:hover::after,
+.nav-events a.active::after {
+  background: #d26d99;
+}
+.nav-deals a:hover::after,
+.nav-deals a.active::after {
+  background: #aac154;
+}
+.nav-albums a:hover::after,
+.nav-albums a.active::after {
+  background: #2da5c0;
+}
+.nav-md a:hover::after,
+.nav-md a.active::after {
+  background: #315e9e;
+}
+
+.main-nav ul li a:hover::after,
+.main-nav ul li a.active::after {
   width: 100%;
-  height: 2px;
-  background-color: transparent;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.sidebar ul li.m:hover .m::after,
-.sidebar ul li.m:hover .text::after {
-  background-color: #315e9e;
-  transform: scaleX(1);
+/* 필요하다면 호버시 폰트 컬러도 맞춰주세요 (예시) */
+
+/* hover/active 효과 */
+.main-nav ul li a:hover,
+.main-nav ul li a.active {
+  transform: scale(1.1);
+  z-index: 1;
 }
-.sidebar ul li.a:hover .a::after,
-.sidebar ul li.a:hover .text::after {
-  background-color: #2da5c0;
-  transform: scaleX(1);
-}
-.sidebar ul li.d:hover .d::after,
-.sidebar ul li.d:hover .text::after {
-  background-color: #aac154;
-  transform: scaleX(1);
-}
-.sidebar ul li.e:hover .e::after,
-.sidebar ul li.e:hover .text::after {
-  background-color: #d26d99;
-  transform: scaleX(1);
+.main-nav ul li a:hover::after,
+.main-nav ul li a.active::after {
+  width: 100%;
 }
 
-.sidebar ul li:hover {
-  color: #3a3a3a;
-  cursor: pointer;
+.nav-right {
+  padding-right: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.875rem;
 }
 
-@media (min-width: 1920px) {
-  .sidebar {
-    left: 80px;
-  }
-}
-@media (min-width: 2560px) {
-  .sidebar {
-    left: 100px;
-  }
+/* 기존 .sidebar 스타일 전체 삭제하거나 아래처럼 비활성화 */
+.sidebar {
+  display: none !important;
 }
 
 /* --- 나머지 섹션 스타일 (paste.txt [1] 기반) --- */
@@ -504,11 +517,11 @@ section {
   height: 100vh;
   /* margin-top 제거 또는 조정 (헤더가 fixed이므로 첫번째 section은 헤더 높이만큼의 padding-top 필요) */
   /* 여기서는 #pinContainer 다음에 오므로, 특별한 margin-top은 불필요할 수 있음 */
-  padding-top: 100px; /* 헤더 높이만큼 확보 */
+  padding-top: 6.25rem; /* 헤더 높이만큼 확보 */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
+  font-size: clamp(1.3rem, 4vw, 3rem);
   font-weight: bold;
   color: white;
 }
@@ -536,13 +549,146 @@ section {
 
 /* 고정 테스트 요소 */
 .fixed-box {
+  top: 9.375rem; /* 150px → 9.375rem */
+  right: 1.25rem; /* 20px → 1.25rem */
+  padding: 0.75rem 1.25rem; /* 12px 20px → 0.75rem 1.25rem */
+  border-radius: 0.5rem; /* 8px → 0.5rem */
+  font-size: 1.125rem; /* 18px → 1.125rem */
   position: fixed;
-  top: 150px; /* 헤더와 사이드바 고려한 위치 */
-  right: 20px; /* 오른쪽으로 변경 */
-  padding: 12px 20px;
   background: black;
   color: white;
-  border-radius: 8px;
-  font-size: 18px;
   z-index: 999;
+}
+
+.event-title {
+  position: absolute;
+  top: 16vw;
+  left: 0;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.375rem;
+  border-radius: 0.5rem;
+  z-index: 10;
+  pointer-events: none;
+  letter-spacing: 0.01em;
+}
+
+.event-section {
+  max-width: 107.5rem; /* 1720px */
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 0.625rem;
+}
+
+.eventSwiper {
+  max-width: 90vw;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+}
+.swiper-slide {
+  width: 34.375rem !important;
+  height: 23.125rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: #f6f7fa;
+  box-shadow: 0 0.125rem 0.94rem rgba(0, 0, 0, 0.08);
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+.swiper-slide-active {
+  opacity: 1 !important;
+  transform: scale(1);
+  z-index: 2;
+}
+.swiper-slide-next,
+.swiper-slide-prev {
+  opacity: 0.8 !important;
+  transform: scale(0.96);
+  z-index: 1;
+}
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.swiper-slide-active {
+  opacity: 1 !important;
+  filter: none;
+  transform: scale(1);
+  z-index: 2;
+  box-shadow: 0 0.5rem 2.5rem rgba(210, 109, 153, 0.17);
+}
+.swiper-slide-next,
+.swiper-slide-prev {
+  opacity: 0.75 !important;
+  filter: blur(0.5px);
+  transform: scale(0.94);
+  z-index: 1;
+}
+.swiper-pagination-bullet {
+  background: #eee;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background: #d26d99;
+}
+
+/* 아래쪽 버튼 컨트롤 중앙 */
+.eventSwiper-controls {
+  position: absolute;
+  bottom: 9.375rem; /* 150px (조정 가능) */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.25rem; /* 36px */
+  pointer-events: none;
+  margin-top: 0;
+}
+
+/* 버튼 자체 */
+.eventSwiper-controls .main_arrow {
+  pointer-events: auto;
+}
+
+.main_arrow {
+  display: block;
+  background: url("images/arrow_right_on.png") no-repeat center center
+    transparent;
+  width: 3.1875rem; /* 51px */
+  height: 3.1875rem;
+  border: 0.125rem solid #222;
+  border-radius: 50%;
+  text-indent: -20000px;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.23s,
+    transform 0.12s;
+  cursor: pointer;
+}
+.main_arrow.prev {
+  transform: scaleX(-1);
+}
+
+.main_arrow.temp-unhover {
+  background-color: transparent !important;
+}
+
+.main_arrow:hover,
+.main_arrow:focus {
+  border-color: #222;
+  background-color: ivory;
+}
+.main_arrow.active-clicked {
+  background-color: #d26d99 !important;
+}
+
+.main_arrow.prev:after,
+.main_arrow.next:after {
+  display: none !important;
 }
