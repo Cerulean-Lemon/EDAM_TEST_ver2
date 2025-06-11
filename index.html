@@ -18,6 +18,12 @@
     />
     <!-- 통합된 CSS 파일 -->
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="out.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
 
     <!-- 필수 라이브러리 (순서 중요) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -25,6 +31,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    <!-- Swiper CSS -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
 
   <body>
@@ -94,6 +103,22 @@
             <img src="images/EDAM_LOGO.png" alt="EDAM Logo" />
           </a>
         </div>
+        <nav class="main-nav">
+          <ul>
+            <li class="nav-events">
+              <a href="#events"><span class="edam-e">E</span>vents</a>
+            </li>
+            <li class="nav-deals">
+              <a href="#deals"><span class="edam-d">D</span>eals</a>
+            </li>
+            <li class="nav-albums">
+              <a href="#albums"><span class="edam-a">A</span>lbums</a>
+            </li>
+            <li class="nav-md">
+              <a href="#md"><span class="edam-m">M</span>D</a>
+            </li>
+          </ul>
+        </nav>
         <div class="nav-right">
           <div class="artist-select">
             <img
@@ -148,37 +173,6 @@
         </div>
       </div>
     </header>
-
-    <!-- 사이드바 (두 번째 HTML 기반) -->
-    <aside class="sidebar">
-      <ul>
-        <li class="m"><span class="m">M</span><span class="text">D</span></li>
-        <li class="a">
-          <span class="a">A</span><span class="text">rtist</span>
-        </li>
-        <li class="d">
-          <span class="d">D</span><span class="text">ream</span>
-        </li>
-        <li class="e">
-          <span class="e">E</span><span class="text">ssentials</span>
-        </li>
-      </ul>
-      <ul style="margin-top: 40px">
-        <li class="e">
-          <span class="e">E</span><span class="text">vent</span>
-        </li>
-        <li class="d">
-          <span class="d">D</span><span class="text">eals</span>
-        </li>
-        <li class="a">
-          <span class="a">A</span><span class="text">lbum</span>
-        </li>
-        <li class="m">
-          <span class="m">M</span><span class="text">oments</span>
-        </li>
-      </ul>
-    </aside>
-
     <!-- 핀 컨테이너 (첫 번째 HTML 기반) -->
     <div id="pinContainer">
       <section class="panel panel1"></section>
@@ -233,12 +227,52 @@
     <!-- 고정 박스 (두 번째 HTML 기반) -->
     <div class="fixed-box">스크롤 테스트 중</div>
 
+    <!-- 이벤트 영역 -->
+    <section id="events" class="event-section">
+      <h2 class="event-title"><span class="edam-e">E</span>vents</h2>
+      <div class="swiper eventSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="images/banner1.png" alt="event1" />
+          </div>
+          <div class="swiper-slide">
+            <img src="images/asdasd3.png" alt="event2" />
+          </div>
+          <div class="swiper-slide">
+            <img src="images/banner3.png" alt="event3" />
+          </div>
+          <div class="swiper-slide">
+            <img src="images/banner1.png" alt="event4" />
+          </div>
+          <div class="swiper-slide">
+            <img src="images/asdasd3.png" alt="event5" />
+          </div>
+          <div class="swiper-slide">
+            <img src="images/banner3.png" alt="event6" />
+          </div>
+        </div>
+
+        <!-- 페이지 인디케이터 -->
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <!-- 네비게이션(화살표) -->
+      <div class="eventSwiper-controls">
+        <button type="button" class="main_arrow prev">
+          <span class="a11y">이전 이벤트트</span>
+        </button>
+        <button type="button" class="main_arrow next">
+          <span class="a11y">다음 이벤트트</span>
+        </button>
+      </div>
+    </section>
+
     <!-- 나머지 섹션들 (두 번째 HTML 기반) -->
-    <section class="section1">Section 1</section>
-    <section class="section2">Section 2</section>
-    <section class="section3">Section 3</section>
-    <section class="section4">Section 4</section>
-    <section class="section5">Section 5</section>
+    <section id="" class="section1">Section 1</section>
+    <section id="events" class="section2">Section 2</section>
+    <section id="deals" class="section3">Section 3</section>
+    <section id="albums" class="section4">Section 4</section>
+    <section id="md" class="section5">Section 5</section>
 
     <!-- 통합된 JavaScript 파일 -->
     <script src="script.js"></script>

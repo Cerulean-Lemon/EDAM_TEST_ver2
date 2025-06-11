@@ -83,7 +83,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
         document.body.classList.add("show-main");
         // 메인 콘텐츠 등장 애니메이션 (헤더, 사이드바, #pinContainer, 섹션 등)
-        gsap.from(".header, .sidebar, #pinContainer, section, .fixed-box", {
+        gsap.from(".header, #pinContainer, section, .fixed-box", {
           opacity: 0,
           y: 30,
           stagger: 0.08,
@@ -150,6 +150,23 @@ window.addEventListener("DOMContentLoaded", () => {
     },
     { passive: true } // 스크롤 성능을 위해 passive: true로 변경
   );
+
+  // 메인 네비게이션 메뉴 스크롤 이동(선택 사항)
+  document.querySelectorAll(".main-nav a").forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 100, // 헤더 높이만큼 오프셋
+            behavior: "smooth",
+          });
+        }
+      }
+    });
+  });
 
   // --- 헤더 인터랙션 (아티스트 선택, 언어 선택 등) ---
   function keepDropdownOpen(event, target) {
@@ -351,53 +368,6 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // --- 사이드바 스크롤 효과 ---
-  const sidebarEl = document.querySelector(".sidebar");
-  if (sidebarEl) {
-    // 요소 존재 확인
-    const baseSidebarOffset = 150; // CSS의 top 값과 유사하게 설정
-
-    function resetSidebarPosition() {
-      sidebarEl.style.top = baseSidebarOffset + "px";
-      sidebarEl.style.display = "block"; // 인트로 사라진 후 보이도록
-    }
-
-    const observer = new MutationObserver(() => {
-      if (document.body.classList.contains("show-main")) {
-        resetSidebarPosition(); // 초기 위치 설정
-        observer.disconnect(); // 한번 실행 후 관찰 중지
-      }
-    });
-    observer.observe(document.body, { attributes: true });
-
-    window.addEventListener("scroll", () => {
-      if (!document.body.classList.contains("show-main")) return; // 인트로 중에는 작동 안함
-      const scrollTop = window.scrollY;
-      const headerHeight =
-        document.querySelector(".header")?.offsetHeight || 100; // 헤더 높이 동적 계산
-      // 사이드바가 헤더 아래부터 시작하고, 스크롤 시 특정 최소 top 값 유지
-      const newTop = Math.max(headerHeight + 20, baseSidebarOffset - scrollTop);
-
-      // GSAP 대신 직접 스타일 변경 (또는 GSAP 사용 유지)
-      // sidebarEl.style.top = newTop + "px";
-      // 아래는 GSAP 사용 유지
-      gsap.to(sidebarEl, {
-        duration: 0.4,
-        top: Math.max(headerHeight + 20, baseSidebarOffset + scrollTop), // scrollTop을 더하는 형태로 변경해야 따라 내려옴
-        // 혹은 CSS에서 position: sticky 사용 고려
-        ease: "power2.out",
-      });
-
-      const intendedTop = baseSidebarOffset + scrollTop; // 스크롤 따라 내려가는 기본 위치
-      const minTopDueToHeader = headerHeight + 20; // 헤더 바로 아래 최소 위치
-      gsap.to(sidebarEl, {
-        duration: 0.4,
-        top: Math.max(minTopDueToHeader, intendedTop), // 헤더 밑으로 내려가지 않으면서 스크롤 따라 이동
-        ease: "power2.out",
-      });
-    });
-  }
 });
 
 // --- 패널 애니메이션 관련 (첫 번째 HTML의 script.js 기반) ---
@@ -489,4 +459,88 @@ $(function () {
       $pinContainerMouse.css("opacity", 0);
     }
   });
+});
+
+var eventSwiper; // 전역에 먼저 선언
+
+document.addEventListener("DOMContentLoaded", function () {
+  var eventSwiper = new Swiper(".eventSwiper", {
+    slidesPerView: 3,
+    centeredSlides: true,
+    loop: true,
+    spaceBetween: 32,
+    autoplay: {
+      delay: 2200,
+      disableOnInteraction: false,
+    },
+    speed: 750,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    grabCursor: true,
+    breakpoints: {
+      0: { slidesPerView: 1, spaceBetween: 8 },
+      700: { slidesPerView: 2, spaceBetween: 16 },
+      1200: { slidesPerView: 3, spaceBetween: 32 },
+    },
+  });
+
+  // 컨트롤 버튼에 클릭 이벤트 연결
+  document
+    .querySelector(".main_arrow.prev")
+    .addEventListener("click", function (e) {
+      e.preventDefault();
+      eventSwiper.slidePrev();
+    });
+  document
+    .querySelector(".main_arrow.next")
+    .addEventListener("click", function (e) {
+      e.preventDefault();
+      eventSwiper.slideNext();
+    });
+  document.querySelectorAll(".main_arrow").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      btn.classList.add("active-clicked");
+      setTimeout(() => {
+        btn.classList.remove("active-clicked");
+      }, 100); // 0.1초 후 바로 원상복구
+    });
+  });
+  document.querySelectorAll(".main_arrow").forEach((btn) => {
+    let hover = false;
+    btn.addEventListener("mouseenter", function () {
+      hover = true;
+    });
+    btn.addEventListener("mouseleave", function () {
+      hover = false;
+      btn.classList.remove("temp-unhover");
+    });
+    btn.addEventListener("click", function () {
+      btn.classList.add("temp-unhover");
+      setTimeout(() => {
+        btn.classList.remove("temp-unhover");
+        btn.blur(); // ←★ 포커스 강제 해제! (이게 핵심)
+      }, 120);
+    });
+  });
+});
+
+/* 스크롤매직 */
+document.addEventListener("DOMContentLoaded", function () {
+  // ... (기존 코드)
+  if (typeof ScrollMagic !== "undefined") {
+    const controller = new ScrollMagic.Controller();
+    const eventSection = document.querySelector(".event-section");
+    if (eventSection) {
+      new ScrollMagic.Scene({
+        triggerElement: eventSection,
+        triggerHook: 0.85,
+        reverse: true,
+      })
+        .on("enter", () => eventSection.classList.add("visible"))
+        .on("leave", () => eventSection.classList.remove("visible"))
+        .addTo(controller);
+    }
+  }
 });
